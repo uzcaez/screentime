@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "982000040892",
+    "project_id": "foda-ec324",
+    "storage_bucket": "foda-ec324.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982000040892:android:ccae97558b7df8300909b9",
+        "android_client_info": {
+          "package_name": "com.example.foda"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrfxh5cmIBjLnA2ssB0QLbjX39iyY46_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982000040892:android:f98d691c20319bb80909b9",
+        "android_client_info": {
+          "package_name": "com.example.produtcivity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrfxh5cmIBjLnA2ssB0QLbjX39iyY46_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

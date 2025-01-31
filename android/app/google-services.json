@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "518971587611",
+    "project_id": "foda-1470b",
+    "storage_bucket": "foda-1470b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:518971587611:android:6caad3bd9a1503e2f68cbe",
+        "android_client_info": {
+          "package_name": "com.example.foda"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCals1Os9dzhW3Atkxq54f9O9hy02Pxduc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
