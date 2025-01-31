@@ -37,26 +37,46 @@ class _ScreenTimeTrackerState extends State<ScreenTimeTracker> with WidgetsBindi
       const InitializationSettings(android: androidSettings),
     );
   }
-
   void _startTracking() async {
-    final storedTime = _prefs.getInt('start_time');
-    final startTime = storedTime != null
-        ? DateTime.fromMillisecondsSinceEpoch(storedTime)
-        : DateTime.now();
-
+    final startTime = DateTime.now();
     await _prefs.setInt('start_time', startTime.millisecondsSinceEpoch);
 
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() => _screenTime = DateTime.now().difference(startTime));
-    });
-
-    await AndroidAlarmManager.periodic(
-      const Duration(seconds: 1),
+    // Start foreground service
+    await _notificationsPlugin.show(
       0,
-      _updateNotification,
-      wakeup: true,
-      rescheduleOnReboot: true,
+      'Screen Time Tracker',
+      'Elapsed: 0h 0m 0s',
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          'screen_time_channel',
+          'Screen Time Tracker',
+          importance: Importance.low,
+          priority: Priority.low,
+          ongoing: true,
+          visibility: NotificationVisibility.public,
+        ),
+      ),
     );
+
+    // Continuous updates
+    Timer.periodic(const Duration(seconds: 1), (timer) async {
+      final currentDuration = DateTime.now().difference(startTime);
+      await _notificationsPlugin.show(
+        0,
+        'Screen Time Tracker',
+        'Elapsed: ${_formatDuration(currentDuration)}',
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            'screen_time_channel',
+            'Screen Time Tracker',
+            importance: Importance.low,
+            priority: Priority.low,
+            ongoing: true,
+            visibility: NotificationVisibility.public,
+          ),
+        ),
+      );
+    });
   }
 
   @pragma('vm:entry-point')
@@ -83,6 +103,11 @@ class _ScreenTimeTrackerState extends State<ScreenTimeTracker> with WidgetsBindi
           priority: Priority.high,
           ongoing: true,
           visibility: NotificationVisibility.public,
+          showWhen: false,
+          category: AndroidNotificationCategory.service,
+          timeoutAfter: 0,
+          autoCancel: false,
+          onlyAlertOnce: true,
         ),
       ),
     );
@@ -129,3 +154,4 @@ class _ScreenTimeTrackerState extends State<ScreenTimeTracker> with WidgetsBindi
     );
   }
 }
+
