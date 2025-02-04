@@ -8,6 +8,7 @@ class TimerItem {
   DateTime startTime;
   Timer? timer;
   bool isActive;
+  Duration get elapsed => DateTime.now().difference(startTime);
 
   TimerItem(this.id, this.startTime, this.isActive);
 }
@@ -29,6 +30,9 @@ class _ScreenTimeTrackerState extends State<ScreenTimeTracker> {
   void initState() {
     super.initState();
     _initialize();
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (mounted) setState(() {});
+    });
   }
 
   Future<void> _initialize() async {
@@ -52,6 +56,9 @@ class _ScreenTimeTrackerState extends State<ScreenTimeTracker> {
     final newTimer = TimerItem(_nextId++, DateTime.now(), true);
 
     newTimer.timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (newTimer.isActive){
+        setState(() {});
+      }
       _updateNotification(newTimer);
     });
 
@@ -145,6 +152,17 @@ class _ScreenTimeTrackerState extends State<ScreenTimeTracker> {
         itemCount: _timers.length,
         itemBuilder: (context, index) {
           final timer = _timers[index];
+          return ListTile(
+            title: Text('Timer ${timer.id +1}'),
+            subtitle: Text(_formatDuration(timer.elapsed)),
+            trailing: IconButton(
+                icon: Icon(timer.isActive ? Icons.stop : Icons.delete),
+                onPressed: () => timer.isActive
+                  ? _stopTimer(timer)
+                  : setState(() => _timers.removeAt(index))
+            ),
+
+          );
           final duration = DateTime.now().difference(timer.startTime);
 
           return ListTile(
