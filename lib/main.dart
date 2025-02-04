@@ -7,13 +7,19 @@ import 'screens/register_screen.dart';
 import 'screens/home_screen.dart';
 import 'services/auth_service.dart';
 import 'screens/ScreenTimeTracker.dart';
+import 'services/timer_service.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences_android/shared_preferences_android.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await SharedPreferences.getInstance();
-  runApp(const MyApp());
+  runApp(
+      ChangeNotifierProvider(
+        create: (context) => TimerService(),
+        child: const MyApp(),
+      ),
+  );
 }
 
 class MyApp extends StatelessWidget {
